@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  indextts-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: indextts-api
+    ports:
+      - "5150:5150"
+    volumes:
+      - ./checkpoints:/app/checkpoints
+      - ./voices:/app/voices
+      - ./audio:/app/audio
+    environment:
+      - PYTHONUNBUFFERED=1
+      - CUDA_VISIBLE_DEVICES=0
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5150/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
