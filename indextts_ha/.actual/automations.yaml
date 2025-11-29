@@ -1,0 +1,2597 @@
+- id: '1685849882240'
+  alias: Bedtime
+  description: ''
+  trigger:
+  - platform: time
+    at: '22:00:00'
+  condition: []
+  action:
+  - service: scene.turn_on
+    target:
+      entity_id: scene.art_off
+    metadata: {}
+  mode: single
+- id: '1685849959990'
+  alias: Wake up
+  description: ''
+  trigger:
+  - platform: time
+    at: 03:00:00
+  condition:
+  - condition: and
+    conditions:
+    - condition: numeric_state
+      entity_id: sensor.pv_power
+      above: 700
+  action:
+  - target:
+      entity_id: scene.art_on
+    metadata: {}
+    action: scene.turn_on
+  mode: single
+- id: '1685850032685'
+  alias: Sun up
+  description: ''
+  triggers:
+  - type: illuminance
+    device_id: 1cc9217ddafa169e6b3d2cd16b0c5d33
+    entity_id: 555d8e4f856ce1dc64f324df15b6dbfc
+    domain: sensor
+    trigger: device
+    above: 700
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+  conditions: []
+  actions:
+  - target:
+      entity_id: scene.outside_off
+    metadata: {}
+    action: scene.turn_on
+    data: {}
+  mode: single
+- id: '1685850084513'
+  alias: Sun is down
+  description: ''
+  triggers:
+  - type: illuminance
+    device_id: 1cc9217ddafa169e6b3d2cd16b0c5d33
+    entity_id: 555d8e4f856ce1dc64f324df15b6dbfc
+    domain: sensor
+    trigger: device
+    below: 600
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+  conditions: []
+  actions:
+  - target:
+      entity_id: scene.outside_on
+    metadata: {}
+    action: scene.turn_on
+    data: {}
+  mode: single
+- id: '1685989461875'
+  alias: Tag Bedroom is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 35c21549-54b8-4cb1-8ae2-2357acad9530
+  condition: []
+  action:
+  - service: script.bedroom
+    data: {}
+  mode: single
+- id: '1685989889879'
+  alias: Tag Art is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: ca27418b-a617-4432-a06a-a22d39af1501
+  condition: []
+  action:
+  - service: script.art
+    data: {}
+  mode: single
+- id: '1685990111290'
+  alias: Tag Pump is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: b2443da8-7a25-4290-b5cd-6a7b9b18c04c
+  condition: []
+  action:
+  - service: script.run_pump
+    data: {}
+  mode: single
+- id: '1685990497794'
+  alias: Tag Table is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: ff628c46-9a12-4d47-92fb-83a6d466352f
+  condition: []
+  action:
+  - service: switch.toggle
+    data: {}
+    target:
+      device_id: 5827c4ccda01b93ac986e1903588cb24
+  mode: single
+- id: '1686003353307'
+  alias: Tag Bedroom x is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: d9b3ba90-e4c4-4449-b541-c366f11cfeba
+  condition: []
+  action:
+  - service: script.bedroom
+    data: {}
+  mode: single
+- id: '1686006166144'
+  alias: Tag Outside is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: dacd1273-773b-4429-9aad-00ff70f96dd4
+  condition: []
+  action:
+  - service: script.toggle_outside
+    data: {}
+  mode: single
+- id: '1686233708037'
+  alias: Tag Office is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 6ef30e88-1cee-491c-8ba5-e14153f7120f
+  condition: []
+  action:
+  - type: toggle
+    device_id: d2131896e98e40c9d856491dd3a523f9
+    entity_id: switch.office_strip
+    domain: switch
+  - type: toggle
+    device_id: 8de8b5d06c56ab659bc106555ed4d4a5
+    entity_id: 97cf7e161985309fb43defa10309710a
+    domain: switch
+  mode: single
+- id: '1686234147836'
+  alias: Tag In office is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: b2c4a60f-05d7-477a-9d9a-f8c82c6f617c
+  condition: []
+  action:
+  - type: toggle
+    device_id: d2131896e98e40c9d856491dd3a523f9
+    entity_id: switch.office_strip
+    domain: switch
+  mode: single
+- id: '1686238277276'
+  alias: 'Cecilia is at work '
+  description: ''
+  triggers:
+  - source: person.cecilia
+    zone: zone.haggen_sehome
+    event: enter
+    trigger: geo_location
+  conditions: []
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: 'Cecilia is at work '
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1686239057085'
+  alias: 'Cecilia is home '
+  description: ''
+  triggers:
+  - trigger: zone
+    entity_id: person.cecilia
+    zone: zone.home
+    event: enter
+  conditions: []
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Happy:80]Welcome home Cecilia '
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1686314508315'
+  alias: Morning Meds reminder
+  description: ''
+  trigger:
+  - platform: time
+    at: 07:15:00
+  condition: []
+  action:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Calm:70]Did you take your morning Medication?'
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1686316598247'
+  alias: Dinner meds
+  description: ''
+  trigger:
+  - platform: time
+    at: '17:15:00'
+  condition: []
+  action:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Calm:70]Did you take your dinner Medication?'
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1686346224473'
+  alias: Didjatake_bedtime
+  description: say text if taken
+  trigger:
+  - entity_id:
+    - input_text.bedtime_meds
+    platform: state
+    attribute: text
+    from: 'False'
+    to: 'True'
+  condition: []
+  action:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Happy:70]Thank you for taking your meds'
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1686346717733'
+  alias: Didjatake_morning
+  description: say text if taken
+  trigger:
+  - entity_id:
+    - input_text.morning_meds
+    platform: state
+    attribute: text
+    from: 'False'
+    to: 'True'
+  condition: []
+  action:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Happy:70]Thank you for taking your meds'
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1686346792399'
+  alias: Didjatake_dinner
+  description: say text if taken
+  trigger:
+  - entity_id:
+    - input_text.dinner_meds
+    platform: state
+    attribute: text
+    from: 'False'
+    to: 'True'
+  condition: []
+  action:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: Thank you for taking your meds
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1686459085994'
+  alias: Bedtime 4real
+  description: 'Really it''s bedtime '
+  trigger:
+  - platform: time
+    at: '23:00:00'
+  condition: []
+  action:
+  - service: scene.turn_on
+    target:
+      entity_id: scene.art_off
+    metadata: {}
+  - service: scene.turn_on
+    target:
+      entity_id: scene.outside_on
+    metadata: {}
+  mode: single
+- id: '1687105421645'
+  alias: PsePoweron
+  description: 'Pse power restored '
+  triggers:
+  - entity_id:
+    - sensor.grid_voltage
+    above: 200
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+    trigger: numeric_state
+  conditions:
+  - condition: numeric_state
+    entity_id: sensor.grid_voltage
+    above: 110
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Happy:60]P S E power restored'
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  - data:
+      message: Pse power is back on
+      title: 'PSE restored '
+    action: notify.mobile_app_cecilias_pixel_4a_5g
+  - action: notify.mobile_app_pixel_9_pro
+    data:
+      message: Power restored
+  - device_id: ef708845707ae937f71471a6db9ced7c
+    domain: climate
+    entity_id: b6903d53af17557cbb3b0525619fb834
+    type: set_hvac_mode
+    hvac_mode: heat
+  - device_id: b1b95eab69001edbb0552fca20005a4d
+    domain: climate
+    entity_id: 16fca47d759a0aeaf8b3329b208aa590
+    type: set_hvac_mode
+    hvac_mode: heat
+  mode: single
+- id: '1687105543140'
+  alias: PsePowerOutage
+  description: 'Pse power outage '
+  triggers:
+  - entity_id:
+    - sensor.grid_voltage
+    below: 200
+    trigger: numeric_state
+  conditions: []
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Afraid:80]PSE power is out, please turn off the water heater and conserve energy'
+      preannounce: true
+    target:
+      device_id:
+      - a5f9941b4fae67e7de0a4404f9299fd0
+      - b72e15afdf343fbf29e5273fca81e4f9
+  - data:
+      message: PSE is out!!
+      title: Warning!!
+    action: notify.mobile_app_cecilias_pixel_4a_5g
+  - action: notify.mobile_app_pixel_9_pro
+    data:
+      message: 'Pse is out turn off hot water heater '
+      title: 'Power outage '
+  - action: notify.persistent_notification
+    metadata: {}
+    data:
+      message: 'PSE power outage '
+      title: 'Power outage '
+  - device_id: ef708845707ae937f71471a6db9ced7c
+    domain: climate
+    entity_id: b6903d53af17557cbb3b0525619fb834
+    type: set_hvac_mode
+    hvac_mode: 'off'
+    enabled: false
+  - device_id: b1b95eab69001edbb0552fca20005a4d
+    domain: climate
+    entity_id: 16fca47d759a0aeaf8b3329b208aa590
+    type: set_hvac_mode
+    hvac_mode: 'off'
+    enabled: false
+  - device_id: 85a37d1dce7e0d4939c66d55143ee9bc
+    domain: climate
+    entity_id: 3fb767290d59025ef3e400b65e93d929
+    type: set_hvac_mode
+    hvac_mode: 'off'
+  - device_id: 22b027156c8800b50a91e2f4642c02cd
+    domain: climate
+    entity_id: 4848452d8edfb55eebdef3c3274ae515
+    type: set_hvac_mode
+    hvac_mode: 'off'
+  - device_id: 52d70fb2380fa13d58e31b36c51a5940
+    domain: water_heater
+    entity_id: 771f477e57ddb24c5cdc7f9934a4600c
+    type: turn_off
+  mode: single
+- id: '1693587557212'
+  alias: Good solar
+  description: 'Pv power is good for cooking '
+  triggers:
+  - type: power
+    device_id: 50b143fb6457c8c56631122a6ccfb3d2
+    entity_id: 9a132916d492b17e643c366b2281422e
+    domain: sensor
+    trigger: device
+    above: 2000
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+  conditions: []
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Happy:60]Solar is good for laundry '
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  - action: notify.persistent_notification
+    data:
+      message: 'Solar is good for cooking or laundry '
+      title: 'Good Solar '
+  - action: notify.mobile_app_cecilias_pixel_4a_5g
+    metadata: {}
+    data:
+      message: 'Solar battery charge is good for cooking or laundry '
+      title: 'Charge is good '
+  mode: single
+- id: '1694059194520'
+  alias: Solar room open
+  description: ''
+  triggers:
+  - entity_id:
+    - binary_sensor.rpi_door_sensor_solar_room_door
+    from: 'off'
+    to: 'on'
+    trigger: state
+  conditions: []
+  actions:
+  - type: turn_on
+    device_id: d2131896e98e40c9d856491dd3a523f9
+    entity_id: cae127317fb3a547e443c0d29ba49b28
+    domain: switch
+  - type: turn_on
+    device_id: 8de8b5d06c56ab659bc106555ed4d4a5
+    entity_id: 97cf7e161985309fb43defa10309710a
+    domain: switch
+  - type: turn_on
+    device_id: 7d28fc512fde22e9c63b40d6cb9df590
+    entity_id: 87a5438ac4f1d62e6cb3c53ba3e9fc0b
+    domain: light
+  mode: single
+- id: '1694059286959'
+  alias: Solar room closed
+  description: ''
+  triggers:
+  - entity_id:
+    - binary_sensor.rpi_door_sensor_solar_room_door
+    from: 'on'
+    to: 'off'
+    trigger: state
+  conditions: []
+  actions:
+  - type: turn_off
+    device_id: d2131896e98e40c9d856491dd3a523f9
+    entity_id: cae127317fb3a547e443c0d29ba49b28
+    domain: switch
+  - type: turn_off
+    device_id: 8de8b5d06c56ab659bc106555ed4d4a5
+    entity_id: 97cf7e161985309fb43defa10309710a
+    domain: switch
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.3_4_impulse
+  - type: turn_off
+    device_id: 7d28fc512fde22e9c63b40d6cb9df590
+    entity_id: 87a5438ac4f1d62e6cb3c53ba3e9fc0b
+    domain: light
+  mode: single
+- id: '1694059493040'
+  alias: Closet opened
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.closet_contact
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 99ad33e0abb163c2dbd803376ddc0b31
+    entity_id: ebc48c03b78bb097f64610ed7c6ec982
+    domain: switch
+  mode: single
+- id: '1694059548481'
+  alias: Closet closed
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.closet_contact
+    from: 'on'
+    to: 'off'
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 99ad33e0abb163c2dbd803376ddc0b31
+    entity_id: ebc48c03b78bb097f64610ed7c6ec982
+    domain: switch
+  mode: single
+- id: '1694061991673'
+  alias: 'Set alarm '
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.alarm_triggers
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: alarm_control_panel.home_alarm
+    state: armed_away
+  action:
+  - service: alarm_control_panel.alarm_trigger
+    data: {}
+    target:
+      entity_id: alarm_control_panel.home_alarm
+  mode: single
+- id: '1694104103211'
+  alias: 'Trigger home alarm '
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.rpi_door_sensor_solar_room_door
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: alarm_control_panel.home_alarm
+    state: armed_away
+  action:
+  - type: turn_on
+    device_id: d2131896e98e40c9d856491dd3a523f9
+    entity_id: cae127317fb3a547e443c0d29ba49b28
+    domain: switch
+  - service: notify.notify
+    data:
+      message: solar room opened, we're not home this is a problem
+      title: 'Info: Solar room opened'
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Angry:100]Fucking mother fucker, calling 9 1 1 '
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1694106271226'
+  alias: Triggered by closet
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - switch.walk_in_closet
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: alarm_control_panel.home_alarm
+    state: triggered
+  action:
+  - type: turn_on
+    device_id: 99ad33e0abb163c2dbd803376ddc0b31
+    entity_id: ebc48c03b78bb097f64610ed7c6ec982
+    domain: switch
+  - service: notify.notify
+    data:
+      message: Closet triggered alarm!
+      title: Alert‼️
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Angry:100]Mother fucker! Someone'"'"'s here! Call the cops!'
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1694567083822'
+  alias: 'Presence TV room '
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.hlk_ld2410_ca84_occupancy
+    to: 'on'
+    from: 'off'
+  condition:
+  - condition: state
+    entity_id: alarm_control_panel.home_alarm
+    state: armed_away
+  action:
+  - type: turn_on
+    device_id: bc709ce330da7113e406343b929bfd5d
+    entity_id: 6ba7505521f366bf07d16cb651e83348
+    domain: light
+  - service: notify.notify
+    data:
+      title: 'Red alert: TV room presence detected '
+      message: 'Presence detected in TV room while alarm armed '
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Angry:100]Fucking mother fucker, i am calling 9 1 1 '
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  - type: turn_on
+    device_id: d2bd77fd98bd811fde93192675edbe92
+    entity_id: 83cd241af332bf78ecf162de37233791
+    domain: switch
+  mode: single
+- id: '1695170424761'
+  alias: Presence Great room
+  description: Send alarm
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.esphome_web_8fa4de_presence
+    to: 'on'
+    from: 'off'
+  condition:
+  - condition: state
+    entity_id: alarm_control_panel.home_alarm
+    state: armed_away
+  action:
+  - type: turn_on
+    device_id: bc709ce330da7113e406343b929bfd5d
+    entity_id: 6ba7505521f366bf07d16cb651e83348
+    domain: light
+  - service: notify.notify
+    data:
+      title: 'Red alert: Great room presence detected '
+      message: 'Presence detected in Great room while alarm armed '
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Angry:100]Fucking mother fucker, i am calling 9 1 1 '
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  - type: turn_on
+    device_id: d2bd77fd98bd811fde93192675edbe92
+    entity_id: 83cd241af332bf78ecf162de37233791
+    domain: switch
+  mode: single
+- id: '1695172366075'
+  alias: Presence Master Bedroom
+  description: Send alarm
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.bedroom_285640_occupancy
+    to: 'on'
+    from: 'off'
+  condition:
+  - condition: state
+    entity_id: alarm_control_panel.home_alarm
+    state: armed_away
+  action:
+  - type: turn_on
+    device_id: bc709ce330da7113e406343b929bfd5d
+    entity_id: 6ba7505521f366bf07d16cb651e83348
+    domain: light
+  - service: notify.notify
+    data:
+      title: 'Red alert: Master Bedroom presence detected '
+      message: 'Presence detected in Master bedroom while alarm armed '
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Angry:100]Fucking mother fucker, i am calling 9 1 1 '
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  - type: turn_on
+    device_id: d2bd77fd98bd811fde93192675edbe92
+    entity_id: 83cd241af332bf78ecf162de37233791
+    domain: switch
+  mode: single
+- id: '1698600416690'
+  alias: 'Off trombone '
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.hlk_ld2410_ca84_occupancy
+    to: 'off'
+    from: 'on'
+  condition:
+  - condition: time
+    after: '17:00:00'
+    before: 03:00:00
+    weekday:
+    - sun
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+  - condition: device
+    type: is_on
+    device_id: 70b0ae7c203ac876b2bec11f02e8c511
+    entity_id: 9ad347ab0d4b2e6fb3b14c1b76d6b234
+    domain: switch
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 30
+  action:
+  - type: turn_off
+    device_id: 9dd6457a0d007571680c2b31e9211316
+    entity_id: 430803f757d0ff837f72d6e79a175467
+    domain: switch
+  - type: turn_off
+    device_id: 97771c8efd1873a39151d92aa9733321
+    entity_id: 28850d64fc72da15176d2615861f8104
+    domain: switch
+  - type: turn_off
+    device_id: 70b0ae7c203ac876b2bec11f02e8c511
+    entity_id: 9ad347ab0d4b2e6fb3b14c1b76d6b234
+    domain: switch
+  mode: single
+- id: '1698974818751'
+  alias: Bedroom lights
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.bedroom_285640_occupancy
+    to: 'on'
+    from: 'off'
+  condition:
+  - condition: time
+    after: '13:00:00'
+    before: '16:00:00'
+    weekday:
+    - sun
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+  - condition: and
+    conditions:
+    - condition: numeric_state
+      entity_id: sensor.bedroom_285640_illuminance
+      below: 1
+  action:
+  - type: turn_on
+    device_id: d0357df1e7e431c349f7d111004a028d
+    entity_id: 7a3b5e329a800152791a833128604a8d
+    domain: switch
+  - type: turn_on
+    device_id: cc29845330582562de892a5776c91f6c
+    entity_id: 77b6b69db4fb81f37c6d3890b08c26e3
+    domain: switch
+  mode: single
+- id: '1710471337702'
+  alias: Tag Lamp is scanned
+  description: 'Toggle lamp
+
+    '
+  trigger:
+  - platform: tag
+    tag_id: 73f2a386-04bd-4c25-9a32-d817b4ba5fd0
+  condition: []
+  action:
+  - type: toggle
+    device_id: 5ef0d66eb6f08729ac963c4d1e8940ee
+    entity_id: e22e92a6b395d3e882a6cdc23b4d731d
+    domain: switch
+  mode: single
+- id: '1710471726163'
+  alias: Tag Empty pump is scanned
+  description: 'Empty pump '
+  trigger:
+  - platform: tag
+    tag_id: f03875eb-3685-4732-8051-a88fc5a9c639
+  condition: []
+  action:
+  - service: script.run_pump
+    metadata: {}
+    data: {}
+  mode: single
+- id: '1710680400031'
+  alias: 'Evening Medication reminder '
+  description: ''
+  trigger:
+  - platform: time
+    at: '19:15:00'
+  condition: []
+  action:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Calm:70]Did you take your evening Medication?'
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1710983904853'
+  alias: 'Turn on closet lights when opened '
+  description: ''
+  trigger:
+  - type: opened
+    platform: device
+    device_id: bd1af526fbb84a2b2a75804ff756d0f9
+    entity_id: f0d854dc2b9b541d865c7dba6a067331
+    domain: binary_sensor
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 99ad33e0abb163c2dbd803376ddc0b31
+    entity_id: ebc48c03b78bb097f64610ed7c6ec982
+    domain: switch
+  mode: single
+- id: '1710984013712'
+  alias: Turn off closet lights when closed
+  description: ''
+  trigger:
+  - type: not_opened
+    platform: device
+    device_id: bd1af526fbb84a2b2a75804ff756d0f9
+    entity_id: f0d854dc2b9b541d865c7dba6a067331
+    domain: binary_sensor
+  condition: []
+  action:
+  - type: toggle
+    device_id: 99ad33e0abb163c2dbd803376ddc0b31
+    entity_id: ebc48c03b78bb097f64610ed7c6ec982
+    domain: switch
+  mode: single
+- id: '1711129152643'
+  alias: Art Switch
+  description: ''
+  trigger:
+  - type: turned_on
+    platform: device
+    device_id: ab0b1e6561c81370096c560f236ae87c
+    entity_id: d2ac2b8f5eac1fb7dca1e75a46d0aa13
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: script.art
+    data: {}
+  mode: single
+- id: '1711218300774'
+  alias: 'Remote bedroom '
+  description: ''
+  trigger:
+  - type: turned_on
+    platform: device
+    device_id: 536ef3675808789033e376195911af7a
+    entity_id: 750a1176dd78a417374f8d870d2d0576
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: script.bedroom
+    data: {}
+  mode: single
+- id: '1711295947519'
+  alias: Remote Office
+  description: ''
+  trigger:
+  - type: turned_on
+    platform: device
+    device_id: b3a7607664d38f0dd092438a339e0494
+    entity_id: 44475505cc28593d5c10f85282b1aea2
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: script.toggle_office
+    data: {}
+  mode: single
+- id: '1711646917110'
+  alias: Triggered by solar room
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.rpi_door_sensor_solar_room_door
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: alarm_control_panel.home_alarm
+    state: triggered
+  action:
+  - type: turn_on
+    device_id: 99ad33e0abb163c2dbd803376ddc0b31
+    entity_id: ebc48c03b78bb097f64610ed7c6ec982
+    domain: switch
+  - service: notify.notify
+    data:
+      message: Solar room triggered alarm!
+      title: Alert‼️
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Angry:100]Mother fucker! Someone'"'"'s here! Call the cops!'
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1730942288413'
+  alias: 'Cold bedroom '
+  description: ''
+  triggers:
+  - type: temperature
+    device_id: 76939b869370d7310bf2ddbeaa009cb1
+    entity_id: 22adcea951b616d272688046cdab0218
+    domain: sensor
+    trigger: device
+    below: 65
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.max_heat
+  mode: single
+- id: '1736697814114'
+  alias: Solar room off
+  description: ''
+  triggers:
+  - type: turned_off
+    device_id: 8de8b5d06c56ab659bc106555ed4d4a5
+    entity_id: 97cf7e161985309fb43defa10309710a
+    domain: switch
+    trigger: device
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.solar_state_off
+  mode: single
+- id: '1736697921011'
+  alias: Solar room on
+  description: ''
+  triggers:
+  - type: turned_on
+    device_id: 8de8b5d06c56ab659bc106555ed4d4a5
+    entity_id: 97cf7e161985309fb43defa10309710a
+    domain: switch
+    trigger: device
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.solar_state_on
+  mode: single
+- id: '1736778534809'
+  alias: Too cold
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.indoor_thermometer_temperature
+    below: 62
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.max_heat
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Afraid:70]It'"'"'s freaking cold! I'"'"'ve turned on the heat'
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1736778671990'
+  alias: 'Too hot '
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.indoor_thermometer_temperature
+    above: 80
+  conditions:
+  - condition: numeric_state
+    entity_id: sensor.bedroom_bluetooth_master_bedroom_temperature
+    above: 78
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.max_cool
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Afraid:70]It'"'"'s freaking hot! I turned on the AirCon, please close the windows'
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1744594710306'
+  alias: Henry left freddies
+  description: ''
+  triggers:
+  - trigger: zone
+    entity_id: person.henry
+    zone: zone.freddie_s
+    event: leave
+  conditions: []
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Happy:60]Henry Has left Fred Myers'
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1745258339865'
+  alias: 'Cecilia is coming home '
+  description: ''
+  triggers:
+  - trigger: zone
+    entity_id: person.cecilia
+    zone: zone.haggen_sehome
+    event: leave
+  conditions: []
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      preannounce: true
+      message: '[Happy:60]Cecilia is on her way home '
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1745780176527'
+  alias: 'HEE On they''re way '
+  description: ''
+  triggers:
+  - trigger: zone
+    entity_id: person.henry
+    zone: zone.henry_and_eileen_s_house
+    event: leave
+  conditions: []
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Happy:70]They are on their way!'
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1745784953007'
+  alias: HEE Halfway way home
+  description: ''
+  triggers:
+  - trigger: zone
+    entity_id: person.henry
+    zone: zone.halfway
+    event: leave
+  conditions: []
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      preannounce: true
+      message: '[Happy:70]Oh, woah, they'"'"'re halfway here!'
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1748125721183'
+  alias: HEE Mount Vernon
+  description: ''
+  triggers:
+  - trigger: zone
+    entity_id: person.henry
+    zone: zone.mount_vernon
+    event: enter
+  conditions: []
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Happy:60]They are in Mount Vernon!'
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1748125790657'
+  alias: HEE Burlington
+  description: ''
+  triggers:
+  - trigger: zone
+    entity_id: person.henry
+    zone: zone.burlington
+    event: enter
+  conditions: []
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Happy:60]They are in Burlington!'
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1748125936197'
+  alias: HEE Lake Samish
+  description: ''
+  triggers:
+  - trigger: zone
+    entity_id: person.henry
+    zone: zone.lake_samish
+    event: enter
+  conditions: []
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Happy:60]They are at Lake Samish!'
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1751824461720'
+  alias: Where is Elara?
+  description: ''
+  triggers:
+  - trigger: time
+    at: '11:00:00'
+  conditions: []
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      preannounce: true
+      message: Where's Elara?
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  - action: assist_satellite.ask_question
+    metadata: {}
+    data:
+      preannounce: true
+      question: Is that Elara?
+    response_variable: 'Yes'
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: Yeah!
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1753144820116'
+  alias: HEE Bellingham
+  description: ''
+  triggers:
+  - trigger: zone
+    entity_id: person.henry
+    zone: zone.bellingham
+    event: enter
+  conditions: []
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Happy:60]They are in Bellingham!'
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1753145566276'
+  alias: HEE Bakerview
+  description: ''
+  triggers:
+  - trigger: zone
+    entity_id: person.henry
+    zone: zone.baherview
+    event: enter
+  conditions: []
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: They are at Bakerview!
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1755310677365'
+  alias: all solar lights on
+  description: ''
+  triggers:
+  - type: turned_on
+    device_id: 7d28fc512fde22e9c63b40d6cb9df590
+    entity_id: 87a5438ac4f1d62e6cb3c53ba3e9fc0b
+    domain: light
+    trigger: device
+  conditions: []
+  actions:
+  - action: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      device_id:
+      - 8de8b5d06c56ab659bc106555ed4d4a5
+      - d2131896e98e40c9d856491dd3a523f9
+  mode: single
+- id: '1755310785672'
+  alias: All solar lights off
+  description: ''
+  triggers:
+  - type: turned_off
+    device_id: 7d28fc512fde22e9c63b40d6cb9df590
+    entity_id: 87a5438ac4f1d62e6cb3c53ba3e9fc0b
+    domain: light
+    trigger: device
+  conditions: []
+  actions:
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id:
+      - 8de8b5d06c56ab659bc106555ed4d4a5
+      - d2131896e98e40c9d856491dd3a523f9
+  mode: single
+- id: '1756148735026'
+  alias: Cecilia close
+  description: ''
+  triggers:
+  - trigger: zone
+    entity_id: person.cecilia
+    zone: zone.scott_shore
+    event: enter
+  conditions: []
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      preannounce: true
+      message: '[Happy:60]Cecilia is close to home '
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1756557194019'
+  alias: 'HEE is close '
+  description: ''
+  triggers:
+  - trigger: zone
+    entity_id: person.henry
+    zone: zone.scott_shore
+    event: enter
+  conditions: []
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      preannounce: true
+      message: '[Happy:60]They are close to home '
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1756677428734'
+  alias: Solar room hot
+  description: ''
+  triggers:
+  - type: temperature
+    device_id: 711c91520472c6a3205ae8f8479b7b1e
+    entity_id: a49c2c071499506d1c4f60dacf81c095
+    domain: sensor
+    trigger: device
+    above: 75
+  conditions:
+  - condition: device
+    device_id: 7d28fc512fde22e9c63b40d6cb9df590
+    domain: fan
+    entity_id: 4a8d49f8154777802a83ab6c50dd2e22
+    type: is_off
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.3_4_impulse
+  mode: single
+- id: '1756677556099'
+  alias: Solar room normal
+  description: ''
+  triggers:
+  - type: temperature
+    device_id: 711c91520472c6a3205ae8f8479b7b1e
+    entity_id: a49c2c071499506d1c4f60dacf81c095
+    domain: sensor
+    trigger: device
+    below: 65
+  conditions:
+  - condition: device
+    device_id: 7d28fc512fde22e9c63b40d6cb9df590
+    domain: fan
+    entity_id: 4a8d49f8154777802a83ab6c50dd2e22
+    type: is_on
+  actions:
+  - type: turn_off
+    device_id: 7d28fc512fde22e9c63b40d6cb9df590
+    entity_id: 4a8d49f8154777802a83ab6c50dd2e22
+    domain: fan
+  mode: single
+- id: '1758414577989'
+  alias: 'It''s cold in the great room '
+  description: ''
+  triggers:
+  - type: temperature
+    device_id: f66e4a6959eae7fe58ffd1025c9151ae
+    entity_id: 405823d8f5e6875c1485fc62b1d02e17
+    domain: sensor
+    trigger: device
+    below: 67
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.great_room_cold
+  mode: single
+- id: '1758414733999'
+  alias: 'It''s cold in the master bedroom '
+  description: ''
+  triggers:
+  - type: temperature
+    device_id: 76939b869370d7310bf2ddbeaa009cb1
+    entity_id: 22adcea951b616d272688046cdab0218
+    domain: sensor
+    trigger: device
+    below: 71
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.bedroom_cold
+  mode: single
+- id: '1758414907295'
+  alias: 'It''s cold in the TV room '
+  description: ''
+  triggers:
+  - type: temperature
+    device_id: 0e390fa26f9254ed021a1acd40a26143
+    entity_id: be0b89b49b3f5ec40fcf44a4b8f8cc64
+    domain: sensor
+    trigger: device
+    below: 68
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.tv_room_cold
+  mode: single
+- id: '1759436536676'
+  alias: Lightning notification
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.st_00193756_lightning_count
+    above: 1
+  conditions: []
+  actions:
+  - action: notify.persistent_notification
+    metadata: {}
+    data:
+      message: 'Lightning has struck near Itistha Way '
+      title: 'Lightning '
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Afraid:70]Lightning has struck nearby '
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1760405968537'
+  alias: AutoOutsideLights
+  description: Automatically control outside lights based on illuminance
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.st_00193756_illuminance
+    above: 500
+    for:
+      minutes: 5
+    id: lights_off
+  - trigger: numeric_state
+    entity_id: sensor.st_00193756_illuminance
+    below: 300
+    for:
+      minutes: 5
+    id: lights_on
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: lights_off
+      sequence:
+      - action: scene.turn_on
+        target:
+          entity_id:
+          - scene.outside_off
+        data: {}
+    - conditions:
+      - condition: trigger
+        id: lights_on
+      sequence:
+      - action: scene.turn_on
+        target:
+          entity_id:
+          - scene.outside_on
+        data: {}
+  mode: restart
+- id: '1761340290375'
+  alias: Weather Alert Notification
+  description: Creates persistent notification for new weather alerts
+  triggers:
+  - entity_id: sensor.nws_weather_alerts
+    trigger: state
+  conditions:
+  - condition: template
+    value_template: '{% set alerts = state_attr(''sensor.nws_weather_alerts'', ''features'')
+      %} {{ alerts is not none and alerts | length > 0 }}
+
+      '
+  actions:
+  - data:
+      title: Weather Alert
+      message: '{% set alerts = state_attr(''sensor.nws_weather_alerts'', ''features'')
+        %} {% if alerts and alerts | length > 0 %} {% set alert = alerts[0] %} **{{
+        alert.properties.event }}**
+
+        Location: {{ alert.properties.areaDesc }}
+
+        Effective: {{ as_timestamp(alert.properties.effective) | timestamp_custom(''%b
+        %d, %I:%M %p'') }} {% if alert.properties.ends %} Ends: {{ as_timestamp(alert.properties.ends)
+        | timestamp_custom(''%b %d, %I:%M %p'') }} {% else %} Expires: {{ as_timestamp(alert.properties.expires)
+        | timestamp_custom(''%b %d, %I:%M %p'') }} {% endif %}
+
+        {{ alert.properties.description[:500] }} {% endif %}
+
+        '
+      notification_id: weather_alert
+    action: persistent_notification.create
+  - target:
+      entity_id: input_boolean.weather_alert_active
+    action: input_boolean.turn_on
+- id: '1761340599022'
+  alias: Weather Alert Voice Indicator
+  description: Makes voice assistant ring spin yellow when alert is active
+  triggers:
+  - entity_id: input_boolean.weather_alert_active
+    to: 'on'
+    trigger: state
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.voice_led_off_duplicate
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Afraid:75]There is a new weather alert'
+      preannounce: true
+    target:
+      device_id:
+      - a5f9941b4fae67e7de0a4404f9299fd0
+      - b72e15afdf343fbf29e5273fca81e4f9
+  - delay:
+      seconds: 1
+  - repeat:
+      while:
+      - condition: state
+        entity_id: input_boolean.weather_alert_active
+        state: 'on'
+      sequence:
+      - target:
+          entity_id:
+          - light.home_assistant_voice_0977d3_led_ring
+          - light.home_assistant_voice_09c098_led_ring
+        data:
+          effect: pulse
+        action: light.turn_on
+      - delay:
+          seconds: 3
+- id: '1761340969010'
+  alias: Read Weather Alert
+  description: Reads weather alert when user asks for notifications
+  triggers:
+  - command:
+    - what's my notification
+    - what is my notification
+    - read my notification
+    - tell me my notification
+    trigger: conversation
+  conditions:
+  - condition: state
+    entity_id: input_boolean.weather_alert_active
+    state: 'on'
+  actions:
+  - action: assist_satellite.announce
+    data:
+      preannounce: true
+      message: "        {% set alerts = state_attr('sensor.nws_weather_alerts', 'features')
+        %}\n        {% if alerts and alerts | length > 0 %}\n        {% set alert
+        = alerts[0] %}\n        {% set desc = alert.properties.description | replace('*',
+        '') | replace('\\n', ' ') | replace('...', '') %}\n        {% set desc = desc
+        | replace('WHAT...', 'What: ') | replace('WHERE...', 'Where: ') | replace('WHEN...',
+        'When: ') | replace('IMPACTS...', 'Impacts: ') %}\n        {% set desc = desc
+        | replace('* WHAT', 'What') | replace('* WHERE', 'Where') | replace('* WHEN',
+        'When') | replace('* IMPACTS', 'Impacts') %}\n        Weather alert. {{ alert.properties.event
+        }} for {{ alert.properties.areaDesc | replace(';', ',') }}. \n        Effective
+        {{ as_timestamp(alert.properties.effective) | timestamp_custom('%B %d at %I:%M
+        %p') }}. \n        {% if alert.properties.ends %}\n        Ends {{ as_timestamp(alert.properties.ends)
+        | timestamp_custom('%B %d at %I:%M %p') }}. \n        {% else %}\n        Expires
+        {{ as_timestamp(alert.properties.expires) | timestamp_custom('%B %d at %I:%M
+        %p') }}. \n        {% endif %}\n        {{ desc }}\n        {% else %}\n        No
+        active weather alerts.\n        {% endif %}\n"
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  - target:
+      entity_id: input_boolean.weather_alert_active
+    action: input_boolean.turn_off
+  - data:
+      notification_id: weather_alert
+    action: persistent_notification.dismiss
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.voice_led_off
+- id: '1761341177199'
+  alias: Clear Weather Alerts
+  description: Clears weather alert without reading
+  triggers:
+  - command:
+    - clear my alerts
+    - clear my alert
+    - dismiss alerts
+    - dismiss my alerts
+    trigger: conversation
+  conditions:
+  - condition: state
+    entity_id: input_boolean.weather_alert_active
+    state: 'on'
+    enabled: false
+  actions:
+  - target:
+      entity_id: input_boolean.weather_alert_active
+    action: input_boolean.turn_off
+  - data:
+      notification_id: weather_alert
+    action: persistent_notification.dismiss
+  - action: assist_satellite.announce
+    data:
+      preannounce: true
+      message: Weather alerts cleared.
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.voice_led_off
+- id: '1761341292504'
+  alias: Auto Clear Weather Alerts
+  description: Automatically clears alert when no longer active
+  triggers:
+  - entity_id: sensor.nws_weather_alerts
+    trigger: state
+  conditions:
+  - condition: template
+    value_template: '{% set alerts = state_attr(''sensor.nws_weather_alerts'', ''features'')
+      %} {{ alerts is none or alerts | length == 0 }}
+
+      '
+  - condition: state
+    entity_id: input_boolean.weather_alert_active
+    state: 'on'
+  actions:
+  - target:
+      entity_id: input_boolean.weather_alert_active
+    action: input_boolean.turn_off
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.voice_led_off
+  - data:
+      notification_id: weather_alert
+    action: persistent_notification.dismiss
+- id: '1761341300002'
+  alias: 'Alert: Severe Weather'
+  description: Notify on NWS weather alerts
+  trigger:
+  - platform: state
+    entity_id: sensor.active_weather_alerts
+  condition:
+  - condition: template
+    value_template: '{{ trigger.to_state.state | int > trigger.from_state.state |
+      int }}'
+  - condition: template
+    value_template: '{{ trigger.to_state.state | int > 0 }}'
+  action:
+  - action: notify.mobile_app_cecilias_pixel_4a_5g
+    data:
+      title: "\U0001F326️ Weather Alert"
+      message: "{% set alerts = state_attr('sensor.active_weather_alerts', 'alerts')
+        %} {% if alerts and alerts | length > 0 %}\n  {{ alerts[0].event }}: {{ alerts[0].headline
+        }}\n{% else %}\n  New weather alert issued for your area\n{% endif %}\n"
+  - action: notify.mobile_app_pixel_9_pro
+    data:
+      title: "\U0001F326️ Weather Alert"
+      message: "{% set alerts = state_attr('sensor.active_weather_alerts', 'alerts')
+        %} {% if alerts and alerts | length > 0 %}\n  {{ alerts[0].event }}: {{ alerts[0].headline
+        }}\n{% else %}\n  New weather alert issued for your area\n{% endif %}\n"
+  - action: notify.persistent_notification
+    data:
+      title: "\U0001F326️ Weather Alert"
+      message: "{% set alerts = state_attr('sensor.active_weather_alerts', 'alerts')
+        %} {% if alerts and alerts | length > 0 %}\n  {{ alerts[0].event }}: {{ alerts[0].headline
+        }}\n{% else %}\n  New weather alert issued for your area\n{% endif %}\n"
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: 'Weather alert. {% set alerts = state_attr(''sensor.active_weather_alerts'',
+        ''alerts'') %} {% if alerts and alerts | length > 0 %}{{ alerts[0].event }}.{%
+        endif %}
+
+        '
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1761341300003'
+  alias: 'Alert: Lightning Strike - Critical'
+  description: Immediate alert for lightning within 10 miles
+  triggers:
+  - entity_id: sensor.lightning_alert_status
+    to: critical
+    trigger: state
+  actions:
+  - action: notify.mobile_app_cecilias_pixel_4a_5g
+    data: {}
+  - action: notify.mobile_app_pixel_9_pro
+    data:
+      title: ⚡ LIGHTNING - CRITICAL
+      message: 'Lightning detected within {{ states(''sensor.st_00193756_lightning_average_distance'')
+        }} miles! {{ states(''sensor.st_00193756_lightning_count'') }} strike(s) detected.
+        Seek shelter immediately!
+
+        '
+  - action: notify.persistent_notification
+    data:
+      title: ⚡ LIGHTNING - CRITICAL
+      message: 'Lightning detected within {{ states(''sensor.st_00193756_lightning_average_distance'')
+        }} miles! {{ states(''sensor.st_00193756_lightning_count'') }} strike(s) detected.
+        Seek shelter immediately!
+
+        '
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: 'Lightning alert! Critical! Lightning detected within {{ states(''sensor.st_00193756_lightning_average_distance'')
+        }} miles! Seek shelter immediately!
+
+        '
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1761341300004'
+  alias: 'Alert: Lightning Strike - Warning'
+  description: Warning for lightning 10-20 miles away
+  triggers:
+  - entity_id: sensor.lightning_alert_status
+    to: warning
+    trigger: state
+  actions:
+  - action: notify.mobile_app_cecilias_pixel_4a_5g
+    data: {}
+  - action: notify.mobile_app_pixel_9_pro
+    data:
+      title: ⚡ Lightning Warning
+      message: 'Lightning detected {{ states(''sensor.st_00193756_lightning_average_distance'')
+        }} miles away. {{ states(''sensor.st_00193756_lightning_count'') }} strike(s)
+        detected. Monitor conditions.
+
+        '
+  - action: notify.persistent_notification
+    data:
+      title: ⚡ Lightning Warning
+      message: 'Lightning detected {{ states(''sensor.st_00193756_lightning_average_distance'')
+        }} miles away. {{ states(''sensor.st_00193756_lightning_count'') }} strike(s)
+        detected. Monitor conditions.
+
+        '
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: 'Lightning warning. Lightning detected {{ states(''sensor.st_00193756_lightning_average_distance'')
+        }} miles away. Monitor conditions.
+
+        '
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1761341300005'
+  alias: 'Alert: Lightning Strike Event'
+  description: Notify on actual lightning strike event
+  triggers:
+  - event_type: itistha_shop_weather_lightning_strike
+    trigger: event
+  actions:
+  - action: notify.mobile_app_cecilias_pixel_4a_5g
+    data: {}
+  - action: notify.mobile_app_pixel_9_pro
+    data:
+      title: ⚡ Lightning Strike Detected
+      message: 'Lightning strike detected at {{ now().strftime(''%I:%M %p'') }}. Distance:
+        {{ states(''sensor.st_00193756_lightning_average_distance'') }} miles
+
+        '
+  - action: notify.persistent_notification
+    data:
+      title: ⚡ Lightning Strike Detected
+      message: 'Lightning strike detected at {{ now().strftime(''%I:%M %p'') }}. Distance:
+        {{ states(''sensor.st_00193756_lightning_average_distance'') }} miles
+
+        '
+  mode: single
+- id: '1761341300006'
+  alias: 'Alert: Morning Safety Briefing'
+  description: Daily summary of road, weather, and safety conditions
+  triggers:
+  - at: 04:30:00
+    trigger: time
+    weekday:
+    - fri
+    - sat
+    - sun
+    - mon
+  actions:
+  - action: notify.mobile_app_cecilias_pixel_4a_5g
+    data: {}
+  - action: notify.mobile_app_pixel_9_pro
+    data:
+      title: "\U0001F305 Morning Safety Briefing"
+      message: '{{ state_attr(''sensor.alert_dashboard'', ''summary'') }}
+
+        Roads: {{ state_attr(''sensor.lummi_access_road_status'', ''status'') }} Weather
+        Alerts: {{ states(''sensor.active_weather_alerts'') }} Lightning: {{ states(''sensor.lightning_alert_status'')
+        | title }}
+
+        '
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Calm:60]Good morning. Here is your safety briefing. {{ state_attr(''sensor.alert_dashboard'',
+        ''summary'') }}
+
+        '
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1761341300007'
+  alias: 'Alert: Emergency Broadcast System Test'
+  description: Test broadcast for Lummi Nation Emergency Alert System
+  triggers:
+  - entity_id: input_boolean.emergency_broadcast_test
+    to: 'on'
+    trigger: state
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: This is a test from the Lummi Nation Emergency Broadcast System located
+        on It Is Tha Way. This is only a test. All alert systems are functioning normally.
+        This concludes this test of the emergency broadcast system.
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  - action: notify.mobile_app_cecilias_pixel_4a_5g
+    data: {}
+  - action: notify.mobile_app_pixel_9_pro
+    data:
+      title: "\U0001F514 Emergency Broadcast System Test"
+      message: This is a test of the Lummi Nation Emergency Broadcast System. All
+        systems operational. Test completed at {{ now().strftime('%I:%M %p') }}.
+  - action: notify.persistent_notification
+    data:
+      title: "\U0001F514 Emergency Broadcast System Test"
+      message: This is a test of the Lummi Nation Emergency Broadcast System. All
+        systems operational. Test completed at {{ now().strftime('%I:%M %p') }}.
+  - delay:
+      seconds: 2
+  - action: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.emergency_broadcast_test
+  mode: single
+- id: '1761341300008'
+  alias: 'Alert: Check Road Status Now'
+  description: On-demand road closure check with immediate feedback
+  triggers:
+  - entity_id: input_boolean.check_road_status
+    to: 'on'
+    trigger: state
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: Checking road status now. Please wait.
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  - action: homeassistant.update_entity
+    target:
+      entity_id: sensor.lummi_road_closures_raw
+  - delay:
+      seconds: 5
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: "Road status update. {% if states('sensor.lummi_access_road_status')
+        | int(0) > 0 %}\n  Warning. {% set closures = state_attr('sensor.lummi_access_road_status',
+        'closures') %}\n  {% if closures and closures | length > 0 %}\n    {% for
+        closure in closures %}{{ closure.title }}. {% endfor %}\n  {% else %}\n    {{
+        states('sensor.lummi_access_road_status') }} road closure detected on Lummi
+        Nation access routes.\n  {% endif %}\n  Check before traveling.\n{% else %}\n
+        \ All Lummi Nation access roads are currently open.\n{% endif %}"
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  - action: notify.mobile_app_cecilias_pixel_4a_5g
+    data: {}
+  - action: notify.mobile_app_pixel_9_pro
+    data:
+      title: "\U0001F6A7 Road Status Check"
+      message: "{% if states('sensor.lummi_access_road_status') | int(0) > 0 %}\n
+        \ ⚠️ {{ states('sensor.lummi_access_road_status') }} road closure(s) detected.\n
+        \ Monitored roads: {{ state_attr('sensor.lummi_access_road_status', 'monitored_roads')
+        | join(', ') }}\n{% else %}\n  ✅ All Lummi access roads are open.\n{% endif
+        %}\nLast checked: {{ now().strftime('%I:%M %p') }}"
+  - action: notify.persistent_notification
+    data:
+      title: "\U0001F6A7 Road Status Check"
+      message: "{% if states('sensor.lummi_access_road_status') | int(0) > 0 %}\n
+        \ ⚠️ {{ states('sensor.lummi_access_road_status') }} road closure(s) detected.\n
+        \ Monitored roads: {{ state_attr('sensor.lummi_access_road_status', 'monitored_roads')
+        | join(', ') }}\n{% else %}\n  ✅ All Lummi access roads are open.\n{% endif
+        %}\nLast checked: {{ now().strftime('%I:%M %p') }}"
+  - delay:
+      seconds: 2
+  - action: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.check_road_status
+  mode: single
+- id: '1762240302668'
+  alias: BadMan Jerry
+  description: ''
+  triggers:
+  - type: turned_on
+    device_id: 903495eac3edc02ac7ca352d061a139e
+    entity_id: 46c06887c86984056df2bdf185a14e8b
+    domain: binary_sensor
+    trigger: device
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 10
+  conditions:
+  - condition: time
+    after: '20:00:00'
+    before: '23:59:59'
+  actions:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 10
+      milliseconds: 0
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.smart_on
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.art_off
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.smart_on
+  mode: single
+- id: '1762240400001'
+  alias: 'Battery Alert: Main Battery Low Warning'
+  description: Alert when main battery drops below 30%
+  triggers:
+  - trigger: numeric_state
+    entity_id: sensor.luxpower_sna_x_3_battery_state_of_charge
+    below: 30
+    for:
+      minutes: 2
+  conditions:
+  - condition: state
+    entity_id: input_boolean.suppress_battery_alerts
+    state: 'off'
+  - condition: numeric_state
+    entity_id: sensor.luxpower_sna_x_3_battery_state_of_charge
+    above: 15
+  actions:
+  - action: input_boolean.turn_on
+    target:
+      entity_id: input_boolean.battery_alert_active
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: '[Afraid:70]Battery warning! Main battery is at {{ states(''sensor.luxpower_sna_x_3_battery_state_of_charge'')
+        }} percent. Consider reducing power usage.
+
+        '
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  - action: notify.mobile_app_pixel_9_pro
+    data:
+      title: "\U0001F50B Battery Warning"
+      message: 'Main battery: {{ states(''sensor.luxpower_sna_x_3_battery_state_of_charge'')
+        }}%'
+  - action: notify.persistent_notification
+    data:
+      title: "\U0001F50B Battery Low"
+      message: Main battery at {{ states('sensor.luxpower_sna_x_3_battery_state_of_charge')
+        }}%. Consider reducing load.
+  mode: single
+- id: '1762240400002'
+  alias: 'Battery Alert: Main Battery Critical'
+  description: Critical alert when main battery drops below 15%
+  triggers:
+  - trigger: numeric_state
+    entity_id: sensor.luxpower_sna_x_3_battery_state_of_charge
+    below: 15
+    for:
+      minutes: 1
+  conditions:
+  - condition: state
+    entity_id: input_boolean.suppress_battery_alerts
+    state: 'off'
+  actions:
+  - action: input_boolean.turn_on
+    target:
+      entity_id: input_boolean.battery_alert_active
+  - action: light.turn_on
+    target:
+      entity_id:
+      - light.home_assistant_voice_0977d3_led_ring
+      - light.home_assistant_voice_09c098_led_ring
+    data:
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      brightness: 255
+      effect: fast pulse
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: 'Critical battery alert! Main battery is at {{ states(''sensor.luxpower_sna_x_3_battery_state_of_charge'')
+        }} percent! Reduce power usage immediately! Turn off water heater!
+
+        '
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  - action: notify.mobile_app_pixel_9_pro
+    data:
+      title: "\U0001F6A8 CRITICAL: Battery Low"
+      message: 'Main battery: {{ states(''sensor.luxpower_sna_x_3_battery_state_of_charge'')
+        }}% - REDUCE LOAD NOW!'
+  - action: notify.mobile_app_cecilias_pixel_4a_5g
+    data:
+      title: "\U0001F6A8 CRITICAL: Battery Low"
+      message: Main battery critical! Turn off water heater!
+  - action: notify.persistent_notification
+    data:
+      title: "\U0001F6A8 CRITICAL: Battery Low"
+      message: Main battery at {{ states('sensor.luxpower_sna_x_3_battery_state_of_charge')
+        }}%! Turn off high-power devices!
+  mode: single
+- id: '1762240400003'
+  alias: 'Battery Alert: Cart Battery Low'
+  description: Alert when cart battery drops below 30%
+  triggers:
+  - trigger: numeric_state
+    entity_id: sensor.sumry_off_grid_x_2_battery_state_of_charge
+    below: 30
+    for:
+      minutes: 2
+  conditions:
+  - condition: state
+    entity_id: input_boolean.suppress_battery_alerts
+    state: 'off'
+  - condition: numeric_state
+    entity_id: sensor.sumry_off_grid_x_2_battery_state_of_charge
+    above: 15
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: 'Cart battery is low at {{ states(''sensor.sumry_off_grid_x_2_battery_state_of_charge'')
+        }} percent.
+
+        '
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  - action: notify.persistent_notification
+    data:
+      title: "\U0001F50B Cart Battery Low"
+      message: Cart battery at {{ states('sensor.sumry_off_grid_x_2_battery_state_of_charge')
+        }}%
+  mode: single
+- id: '1762240400004'
+  alias: 'Battery Alert: Batteries Fully Charged'
+  description: Notify when batteries are fully charged and solar is strong
+  triggers:
+  - trigger: numeric_state
+    entity_id: sensor.luxpower_sna_x_3_battery_state_of_charge
+    above: 95
+    for:
+      minutes: 5
+  conditions:
+  - condition: numeric_state
+    entity_id: sensor.total_solar_production
+    above: 2000
+  - condition: numeric_state
+    entity_id: sensor.sumry_off_grid_x_2_battery_state_of_charge
+    above: 90
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: 'Good news! Batteries are fully charged and solar production is {{
+        (states(''sensor.total_solar_production'') | float / 1000) | round(1) }} kilowatts.
+        Perfect time for laundry or cooking!
+
+        '
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  - action: notify.persistent_notification
+    data:
+      title: ☀️ Batteries Fully Charged
+      message: 'Solar: {{ states(''sensor.total_solar_production'') }}W - Great time
+        for high-power tasks!'
+  mode: single
+- id: '1762240400005'
+  alias: 'Battery Alert: Grid Failure Detected'
+  description: Alert when grid goes offline
+  triggers:
+  - trigger: state
+    entity_id: sensor.grid_status
+    to: offline
+  conditions: []
+  actions:
+  - action: light.turn_on
+    target:
+      entity_id:
+      - light.home_assistant_voice_0977d3_led_ring
+      - light.home_assistant_voice_09c098_led_ring
+    data:
+      rgb_color:
+      - 255
+      - 165
+      - 0
+      brightness: 200
+      effect: pulse
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: 'Grid power is offline. Running on battery. Main battery at {{ states(''sensor.luxpower_sna_x_3_battery_state_of_charge'')
+        }} percent. Conserve power.
+
+        '
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  - action: notify.mobile_app_pixel_9_pro
+    data:
+      title: ⚡ Grid Offline
+      message: Running on batteries ({{ states('sensor.luxpower_sna_x_3_battery_state_of_charge')
+        }}%)
+  mode: single
+- id: '1762240400006'
+  alias: 'Battery Alert: Grid Restored'
+  description: Alert when grid comes back online
+  triggers:
+  - trigger: state
+    entity_id: sensor.grid_status
+    to: online
+    for:
+      minutes: 2
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    target:
+      entity_id: scene.voice_led_off
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: Grid power restored.
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: '1762240400007'
+  alias: 'Battery Alert: Clear Battery Alerts'
+  description: Clear battery alerts when batteries recover
+  triggers:
+  - trigger: numeric_state
+    entity_id: sensor.luxpower_sna_x_3_battery_state_of_charge
+    above: 50
+    for:
+      minutes: 5
+  conditions:
+  - condition: state
+    entity_id: input_boolean.battery_alert_active
+    state: 'on'
+  actions:
+  - action: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.battery_alert_active
+  - action: scene.turn_on
+    target:
+      entity_id: scene.voice_led_off
+  - action: persistent_notification.dismiss
+    data:
+      notification_id: battery_low
+  mode: single
+- id: '1762240400008'
+  alias: 'Battery Alert: High Solar Performance'
+  description: Notify when total solar production exceeds 15kW
+  triggers:
+  - trigger: numeric_state
+    entity_id: sensor.total_solar_production
+    above: 15000
+    for:
+      minutes: 5
+  conditions: []
+  actions:
+  - action: assist_satellite.announce
+    metadata: {}
+    data:
+      message: 'Wow! Solar production is at {{ (states(''sensor.total_solar_production'')
+        | float / 1000) | round(1) }} kilowatts! Batteries will charge quickly!
+
+        '
+      preannounce: true
+    target:
+      device_id:
+      - b72e15afdf343fbf29e5273fca81e4f9
+      - a5f9941b4fae67e7de0a4404f9299fd0
+  mode: single
+- id: camera_auto_silent_enable
+  alias: 'Camera: Auto Enable Silent Mode'
+  description: Automatically enable silent mode per Schedule
+  triggers:
+  - trigger: state
+    entity_id:
+    - schedule.silence_prefered
+    to:
+    - 'on'
+  conditions:
+  - condition: state
+    entity_id: input_boolean.camera_silent_auto_hours
+    state: 'on'
+  actions:
+  - target:
+      entity_id: input_boolean.camera_alerts_silent_mode
+    action: input_boolean.turn_on
+  - data:
+      name: Camera System
+      message: Auto-enabled silent mode (10pm)
+    action: logbook.log
+- id: camera_auto_silent_disable
+  alias: 'Camera: Auto Disable Silent Mode'
+  description: Automatically disable silent mode per schedule
+  triggers:
+  - trigger: state
+    entity_id:
+    - schedule.silence_prefered
+    to:
+    - 'off'
+  conditions:
+  - condition: state
+    entity_id: input_boolean.camera_silent_auto_hours
+    state: 'on'
+  actions:
+  - target:
+      entity_id: input_boolean.camera_alerts_silent_mode
+    action: input_boolean.turn_off
+  - data:
+      name: Camera System
+      message: Auto-disabled silent mode (6am)
+    action: logbook.log
+- id: reolink_periodic_cleanup
+  alias: 'Camera: Daily Cleanup Safety Net'
+  description: Removes orphaned timestamped files, keeps only _latest and _history
+    versions
+  trigger:
+  - platform: time
+    at: 03:00:00
+  action:
+  - service: logbook.log
+    data:
+      name: Camera System
+      message: 'Daily cleanup: All cameras using _latest and _history naming'
+- id: camera_webhook_handler
+  alias: 'Camera: Webhook File Detection'
+  description: Process new camera files detected by RestPi monitor
+  triggers:
+  - webhook_id: camera_new_file
+    trigger: webhook
+  conditions:
+  - condition: state
+    entity_id: input_boolean.camera_alerts_enabled
+    state: 'on'
+  actions:
+  - variables:
+      filename: '{{ trigger.json.file }}'
+      camera_id: '{{ trigger.json.camera_id | default("reolink") }}'
+      filepath: "{% if camera_id == 'reolink' %}\n  {{ trigger.json.path }}/{{ filename
+        }}\n{% else %}\n  {# ONVIF: Extract date from filename (A251111...) -> 20251111
+        #}\n  {% set date_str = '20' + filename[1:7] %}\n  {{ trigger.json.path }}/{{
+        date_str }}/images/{{ filename }}\n{% endif %}\n"
+      camera_prefix: "{% if camera_id == 'reolink' %}\n  {{ filename.split('_')[0]
+        }}_{{ filename.split('_')[1] }}\n{% else %}\n  {{ camera_id }}\n{% endif %}\n"
+      camera_friendly_name: '{{ state_attr(''sensor.camera_friendly_names'', camera_prefix)
+        | default(camera_prefix) }}
+
+        '
+      camera_num: "{% if camera_id == 'reolink' %}\n  {{ filename.split('_')[1] }}\n{%
+        else %}\n  {{ camera_id }}\n{% endif %}\n"
+      file_timestamp: "{% if camera_id == 'reolink' %}\n  {% set parts = filename.split('_')
+        %}\n  {% if parts|length == 4 %}\n    {{ parts[2] }}_{{ parts[3].split('.')[0]
+        }}\n  {% else %}\n    {{ parts[2].split('.')[0] }}\n  {% endif %}\n{% else
+        %}\n  {# ONVIF format: A251111131747XX.jpg -> 251111_131747 #}\n  {{ filename[1:7]
+        }}_{{ filename[7:13] }}\n{% endif %}\n"
+      is_silent: '{{ is_state(''input_boolean.camera_alerts_silent_mode'', ''on'')
+        }}'
+      image_url: http://192.168.4.190:5000/images/{{ camera_prefix }}_latest.jpg
+
+
+  - data:
+      name: Webhook Debug - TRIGGERED
+      message: 'Webhook received! Payload: {{ trigger.json }}'
+    action: logbook.log
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.json.ai_result is defined and trigger.json.ai_result != None }}'
+      sequence:
+      - variables:
+          ai_result: '{{ trigger.json.ai_result }}'
+          detection_type: '{{ trigger.json.detection_type }}'
+          camera_time: '{{ trigger.json.camera_time | default("not available") }}'
+          camera_time_formatted: '{{ trigger.json.camera_time_formatted | default("not available") }}'
+          friendly_time: '{{ now().strftime(''%I:%M %p'') }}'
+          is_friendly_cat: "{% set type = detection_type | trim %}\\n{% if type
+            == 'animal' and ai_result and 'cat' in ai_result | lower %}\\n  {% set
+            desc = ai_result | lower %}\\n  {% if 'monkey' in desc %}\\n    Monkey\\n
+            \\ {% elif 'pepper' in desc %}\\n    Pepper\\n  {% else %}\\n    false\\n  {%
+            endif %}\\n{% else %}\\n  false\\n{% endif %}\\n"
+      - data:
+          name: Webhook Debug - SERVER AI USED
+          message: 'Using server-provided AI result: {{ ai_result }}'
+        action: logbook.log
+    default:
+    - variables:
+        ai_result: Motion detected
+        detection_type: unknown
+        friendly_time: '{{ now().strftime(''%I:%M %p'') }}'
+  - data:
+      name: Webhook Debug - AFTER AI PROCESSING
+      message: ai_enabled={{ ai_enabled }}, ai_result={{ ai_result }}, detection_type={{
+        detection_type }}
+    action: logbook.log
+  - data:
+      name: '{{ camera_friendly_name }}'
+      message: '{{ friendly_time }}: {{ ai_result }}'
+    action: logbook.log
+  - data:
+      filename: '{{ filename }}'
+      detection_type: '{{ detection_type }}'
+      ai_result: '{{ ai_result }}'
+    action: rest_command.log_detection
+  # Only create metadata (save to history) for actual detections
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{ detection_type not in ['nothing', 'unknown'] }}"
+      sequence:
+      - data:
+          camera_prefix: '{{ camera_prefix }}'
+          ai_result: '{{ ai_result }}'
+          detection_type: '{{ detection_type }}'
+        action: rest_command.create_metadata
+  - service: input_text.set_value
+    target:
+      entity_id: input_text.camera_snapshot_latest
+    data:
+      value: '{{ filename }}'
+  - service: input_text.set_value
+    target:
+      entity_id: input_text.camera_alert_latest
+    data:
+      value: '{{ camera_friendly_name }} at {{ friendly_time }}: {{ ai_result }}'
+  # Only rotate images for actual detections (not 'nothing' or 'unknown')
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{ detection_type not in ['nothing', 'unknown'] }}"
+      sequence:
+      - data:
+          source_file: '{{ filename }}'
+          camera_prefix: '{{ camera_prefix }}'
+        action: rest_command.rename_reosnap
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{ not is_silent and\n   (detection_type not in ['unknown',
+          'friendly_pet','nothing'] or\n    (detection_type == 'friendly_pet' and
+          is_state('input_boolean.camera_friendly_cat_notifications', 'on'))) }}\n"
+      sequence:
+      - data:
+          message: "{% set clean_result = ai_result | regex_replace('CAMERA_TIME:.*', '', ignorecase=True) | trim %}{% if detection_type == 'person' %}\n  ALERT! Person detected on {{ camera_friendly_name }} at {{ friendly_time }}\n{% elif detection_type == 'friendly_pet' %}\n  {{ is_friendly_cat }} spotted on {{ camera_friendly_name }} at {{ friendly_time }}\n{% elif detection_type == 'threat' %}\n  RED ALERT! Threat detected on {{ camera_friendly_name }}! {{ clean_result }}\n{% else %}\n  {{ detection_type | title }} detected on {{ camera_friendly_name }} at {{ friendly_time }}\n{% endif %} {{ clean_result }} {% if camera_time_formatted != 'not available' %} Camera time {{ camera_time_formatted }} {% endif %}\n"
+          preannounce: true
+        target:
+          device_id:
+          - b72e15afdf343fbf29e5273fca81e4f9
+          - a5f9941b4fae67e7de0a4404f9299fd0
+        action: assist_satellite.announce
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{ detection_type not in ['unknown', 'friendly_pet','nothing']
+          or\n   (detection_type == 'friendly_pet' and is_state('input_boolean.camera_friendly_cat_notifications',
+          'on')) }}\n"
+      sequence:
+      - action: notify.mobile_app_pixel_9_pro
+        continue_on_error: true
+        data:
+          message: "{% if detection_type == 'friendly_pet' %}\n  \U0001F431 {{ camera_friendly_name
+            }} - {{ is_friendly_cat }}\n{% elif detection_type == 'threat' %}\n  \U0001F6A8
+            RED ALERT - {{ camera_friendly_name }}\n{% else %}\n  \U0001F4F7 {{ camera_friendly_name
+            }} - {{ detection_type | title }}\n{% endif %}"
+          data:
+            tag: camera_{{ camera_prefix }}
+            group: camera_alerts
+            image: '{{ image_url }}'
+            ttl: 0
+            priority: high
+      - action: notify.mobile_app_pixel_9_pro
+        continue_on_error: true
+        data:
+          message: '{{ ai_result }} at {{ friendly_time }}'
+          data:
+            tag: camera_{{ camera_prefix }}
+            group: camera_alerts
+            ttl: 0
+            priority: high
+      - action: notify.mobile_app_cecilias_pixel_4a_5g
+        continue_on_error: true
+        data:
+          message: "{% if detection_type == 'friendly_pet' %}\n  \U0001F431 {{ camera_friendly_name
+            }} - {{ is_friendly_cat }}\n{% elif detection_type == 'threat' %}\n  \U0001F6A8
+            RED ALERT - {{ camera_friendly_name }}\n{% else %}\n  \U0001F4F7 {{ camera_friendly_name
+            }} - {{ detection_type | title }}\n{% endif %}"
+          data:
+            tag: camera_{{ camera_prefix }}
+            group: camera_alerts
+            image: '{{ image_url }}'
+            ttl: 0
+            priority: high
+      - action: notify.mobile_app_cecilias_pixel_4a_5g
+        continue_on_error: true
+        data:
+          message: '{{ ai_result }} at {{ friendly_time }}'
+          data:
+            tag: camera_{{ camera_prefix }}
+            group: camera_alerts
+            ttl: 0
+            priority: high
+  mode: queued
+  max: 20
+- id: unified_daily_brief
+  alias: 'Unified: Daily Brief'
+  description: Comprehensive morning briefing with weather, roads, battery, and security
+  trigger:
+    - platform: state
+      entity_id: schedule.daily_brief
+      from: 'off'
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: input_boolean.daily_brief_enabled
+      state: 'on'
+  action:
+    - service: script.daily_brief_master
+      data: {}
+  mode: single
+
+- id: control_hee_automations
+  alias: "Control HEE Automations"
+  description: "Enables or disables HEE automations based on input_boolean"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.hee_automations
+  action:
+    - service: "automation.turn_{{ trigger.to_state.state }}"
+      target:
+        entity_id: >
+          {{ states.automation 
+             | selectattr('attributes.friendly_name', 'defined')
+             | selectattr('attributes.friendly_name', 'search', '^HEE ')
+             | map(attribute='entity_id') 
+             | list }}
+  mode: single
