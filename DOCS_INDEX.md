@@ -39,7 +39,8 @@
 | **DELIVERY_SUMMARY.md** | What you received | Everyone |
 | **INDEXTTS_APP_SETUP.md** | Quick start guide | Getting started |
 | **indextts_app/README.md** | Full documentation | Developers |
-| **API_REFERENCE.md** | API details | API users |
+| **API_REFERENCE.md** | Python API details | API users |
+| **API_SERVER.md** | REST API reference | Integration developers |
 | **IMPLEMENTATION_SUMMARY.md** | Technical deep dive | Architects |
 
 ---
@@ -62,9 +63,17 @@
 
 #### **Look up an API function**
 → [API_REFERENCE.md](./API_REFERENCE.md)
+- Python API documentation
 - Function signatures
 - Parameter details
 - Return values
+
+#### **Build/deploy REST API**
+→ [API_SERVER.md](./API_SERVER.md)
+- REST API endpoints
+- Integration examples (Trivok, Home Assistant)
+- Docker deployment
+- Production configuration
 
 #### **Understand the implementation**
 → [IMPLEMENTATION_SUMMARY.md](./IMPLEMENTATION_SUMMARY.md)
@@ -93,7 +102,12 @@ indextts_app/
 ├── voice_library/        # Voice management database
 ├── utils/                # TTS synthesis wrapper
 ├── cli/                  # Command-line interface
-└── api/                  # REST API (stub, ready to build)
+├── api/                  # REST API microservice (Phase 2)
+│   ├── app.py           # FastAPI application
+│   ├── main.py          # Entry point
+│   ├── models.py        # Request/response models
+│   └── routes/          # API route handlers
+└── test_emotion.py      # Test suite
 ```
 
 ### Documentation
@@ -102,15 +116,19 @@ indextts_app/
 Root level:
 ├── DELIVERY_SUMMARY.md       ← What you got
 ├── INDEXTTS_APP_SETUP.md    ← Quick start
+├── API_SERVER.md            ← REST API documentation (NEW!)
 ├── IMPLEMENTATION_SUMMARY.md ← Technical details
-├── API_REFERENCE.md         ← API documentation
+├── API_REFERENCE.md         ← Python API documentation
+├── Dockerfile               ← Docker image (NEW!)
+├── docker-compose.yml       ← Docker Compose (NEW!)
 └── (this file)
 
 indextts_app/:
 └── README.md                ← Full feature documentation
 
 examples/:
-├── indextts_app_example.py  ← Working examples
+├── indextts_app_example.py              ← Standalone app examples
+└── indextts_api_integration_examples.py ← REST API integration examples (NEW!)
 ```
 
 ---
