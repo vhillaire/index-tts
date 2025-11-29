@@ -1,0 +1,12 @@
+{
+  "domain": "indextts",
+  "name": "IndexTTS",
+  "codeowners": ["@vhillaire"],
+  "config_flow": true,
+  "documentation": "https://github.com/vhillaire/index-tts",
+  "requirements": ["aiohttp==3.9.1"],
+  "version": "0.1.0",
+  "issue_tracker": "https://github.com/vhillaire/index-tts/issues",
+  "iot_class": "local_polling",
+  "homeassistant": "2024.1.0"
+}

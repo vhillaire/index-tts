@@ -1,0 +1,62 @@
+"""IndexTTS services available through Home Assistant
+
+These are the services provided by the IndexTTS integration.
+"""
+
+tts.indextts_speak:
+  name: IndexTTS Speak
+  description: Synthesize speech using IndexTTS with optional emotion
+  fields:
+    entity_id:
+      selector:
+        entity:
+          domain: media_player
+      required: true
+      description: The media player entity to speak to
+    
+    message:
+      selector:
+        text:
+      required: true
+      description: |
+        Text to speak. Supports emotion tags: [Emotion:Intensity]text
+        
+        Examples:
+        - "Hello world"
+        - "[Happy:80]Welcome!"
+        - "[Calm:60]Please relax"
+        - "[Angry:90]Alert!"
+    
+    voice:
+      selector:
+        text:
+      description: Voice ID to use (overrides default)
+      example: "bedroom_voice"
+    
+    emotion:
+      selector:
+        text:
+      description: |
+        Emotion to apply (emotion_name:intensity)
+        
+        Supported emotions:
+        - happy, calm, angry, sad
+        - afraid, surprised, disgusted, melancholic
+        
+        Examples: "happy:80", "calm:60", "angry:90"
+      example: "happy:80"
+    
+    cache:
+      selector:
+        boolean:
+      default: true
+      description: Cache generated audio for reuse
+    
+    speed:
+      selector:
+        number:
+          min: 0.5
+          max: 2.0
+          step: 0.1
+      default: 1.0
+      description: Speech speed multiplier

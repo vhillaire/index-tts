@@ -1,0 +1,248 @@
+"""
+Example Home Assistant automations and services using IndexTTS
+
+Add these to your Home Assistant automation.yaml or services.yaml
+"""
+
+# ==================== TTS SERVICE CALLS ====================
+
+# Basic announcement
+service: tts.indextts_speak
+data:
+  message: "Good morning! It's time to wake up."
+  entity_id: media_player.bedroom_speaker
+  cache: true
+
+---
+
+# Announcement with emotion (happy/excited)
+service: tts.indextts_speak
+data:
+  message: "[Happy:90]Welcome home! I'm so glad you're here!"
+  entity_id: media_player.living_room_speaker
+
+---
+
+# Security alert with emotion (urgent/alert)
+service: tts.indextts_speak
+data:
+  message: "[Angry:80]Warning! Front door opened at midnight!"
+  entity_id: media_player.hallway_speaker
+  cache: false
+
+---
+
+# Calm notification
+service: tts.indextts_speak
+data:
+  message: "[Calm:70]Your laundry is ready. No rush though."
+  entity_id: media_player.kitchen_speaker
+
+---
+
+# ==================== HOME ASSISTANT AUTOMATIONS ====================
+
+automation:
+  # Morning greeting
+  - alias: "Morning Greeting"
+    trigger:
+      platform: time
+      at: "07:00:00"
+    action:
+      service: tts.indextts_speak
+      data:
+        message: "[Happy:80]Good morning! Time to get up!"
+        entity_id: media_player.bedroom_speaker
+        cache: true
+
+  # Guest arrival
+  - alias: "Guest Arrival Welcome"
+    trigger:
+      platform: state
+      entity_id: sensor.front_door
+      to: "open"
+    condition:
+      condition: time
+      after: "17:00:00"
+      before: "23:00:00"
+    action:
+      service: tts.indextts_speak
+      data:
+        message: "[Excited:85]Welcome! So great to see you!"
+        entity_id: media_player.living_room_speaker
+
+  # Security Alert - Intruder Detection
+  - alias: "Security Alert - Intruder"
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_hallway
+      to: "on"
+    condition:
+      condition: time
+      after: "22:00:00"
+      before: "06:00:00"
+    action:
+      - service: tts.indextts_speak
+        data:
+          message: "[Angry:90]ALERT! Motion detected in hallway at night!"
+          entity_id: media_player.bedroom_speaker
+          cache: false
+      - service: light.turn_on
+        data:
+          entity_id: light.hallway
+
+  # Calm reminder
+  - alias: "Medication Reminder"
+    trigger:
+      platform: time
+      at: "08:00:00"
+    action:
+      service: tts.indextts_speak
+      data:
+        message: "[Calm:75]Don't forget to take your medication this morning."
+        entity_id: media_player.bedroom_speaker
+
+  # Temperature alert - hot
+  - alias: "Temperature Alert - Hot"
+    trigger:
+      platform: state
+      entity_id: sensor.living_room_temperature
+      above: "28"
+    action:
+      service: tts.indextts_speak
+      data:
+        message: "[Surprised:70]It's getting quite warm! The AC might need adjustment."
+        entity_id: media_player.living_room_speaker
+
+  # Temperature alert - cold
+  - alias: "Temperature Alert - Cold"
+    trigger:
+      platform: state
+      entity_id: sensor.living_room_temperature
+      below: "15"
+    action:
+      service: tts.indextts_speak
+      data:
+        message: "[Afraid:65]It's getting cold in here. Let me turn up the heat."
+        entity_id: media_player.living_room_speaker
+
+  # Battery warning - sad/concerned
+  - alias: "Battery Warning"
+    trigger:
+      platform: state
+      entity_id: sensor.door_lock_battery
+      below: "20"
+    action:
+      service: tts.indextts_speak
+      data:
+        message: "[Sad:60]The door lock battery is getting low. Time for new batteries."
+        entity_id: media_player.living_room_speaker
+
+  # Bedtime routine
+  - alias: "Bedtime Routine"
+    trigger:
+      platform: time
+      at: "22:00:00"
+    action:
+      service: tts.indextts_speak
+      data:
+        message: "[Calm:85]Time to get ready for bed. Sleep tight!"
+        entity_id: media_player.bedroom_speaker
+
+  # Device connected
+  - alias: "Device Connected"
+    trigger:
+      platform: state
+      entity_id: device_tracker.home_phone
+      to: "home"
+    action:
+      service: tts.indextts_speak
+      data:
+        message: "[Happy:70]Welcome back! Your phone just connected."
+        entity_id: media_player.living_room_speaker
+
+# ==================== SCRIPT EXAMPLES ====================
+
+script:
+  
+  # Flexible announcement with emotion
+  indexed_tts_announcement:
+    description: "Make an announcement with emotion"
+    fields:
+      message:
+        description: "Message to announce"
+        example: "Hello world"
+      emotion:
+        description: "Emotion (happy, calm, angry, sad, afraid, surprised, disgusted, melancholic)"
+        example: "happy"
+      intensity:
+        description: "Emotion intensity (0-100)"
+        example: 70
+      target_speaker:
+        description: "Speaker to announce to"
+        example: "media_player.living_room_speaker"
+    sequence:
+      - service: tts.indextts_speak
+        data:
+          message: "[{{ emotion | title }}:{{ intensity }}]{{ message }}"
+          entity_id: "{{ target_speaker }}"
+          cache: true
+
+  # Complex multi-emotion announcement
+  indexed_tts_complex:
+    description: "Make complex announcement with multiple emotions"
+    sequence:
+      - service: tts.indextts_speak
+        data:
+          message: |
+            [Happy:80]Great news![Calm:60] Everything is working perfectly. 
+            [Excited:75]You're all set for the day!
+          entity_id: media_player.living_room_speaker
+          cache: true
+
+# ==================== EXAMPLE AUTOMATIONS - FULL YAML ====================
+
+# Add to automation.yaml:
+
+automation: !include automations.yaml
+
+# Add to automations.yaml:
+
+- id: morning_greeting
+  alias: Morning Greeting
+  trigger:
+    platform: time
+    at: "07:00:00"
+  action:
+    service: tts.indextts_speak
+    data:
+      message: "[Happy:80]Good morning!"
+      entity_id: media_player.bedroom_speaker
+
+- id: guest_welcome
+  alias: Guest Welcome
+  trigger:
+    platform: state
+    entity_id: sensor.door
+    to: "opened"
+  action:
+    - service: tts.indextts_speak
+      data:
+        message: "[Excited:85]Welcome! Come in!"
+        entity_id: media_player.living_room_speaker
+    - service: light.turn_on
+      data:
+        entity_id: light.entryway
+
+- id: security_alert
+  alias: Security Alert
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_detected
+    to: "on"
+  action:
+    service: tts.indextts_speak
+    data:
+      message: "[Angry:90]ALERT! Motion detected!"
+      entity_id: media_player.hallway_speaker
+      cache: false
